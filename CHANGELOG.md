@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+- Store JDTLS in Lumide’s private plugin storage.
+- Fix the JDTLS archive download path.
+- Update `lumide_api` to `1.11.0`.
+
 ## 1.0.1
 
 - Bump `lumide_api` dependency to `1.1.0`.

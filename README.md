@@ -33,7 +33,7 @@ Access these via the Command Palette (`Cmd+Shift+P` / `Ctrl+Shift+P`):
 
 - **JDK 17+**: A Java Development Kit must be installed.
     - Recommended: [Eclipse Temurin](https://adoptium.net)
-- **Home Environment**: The extension uses `~/.sofluffy/lumide/lsp/lumide_java` for isolated storage.
+- **Private Storage**: JDTLS installs in Lumide’s private storage for this plugin.
 
 ## License
 

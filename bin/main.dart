@@ -26,17 +26,18 @@ class JavaPlugin extends LumidePlugin {
   static const _upgradeCommandId = 'lumide_java.upgradeJdtls';
 
   /// Base path for all JDTLS installations for this plugin.
-  String get _jdtlsBaseDir => '$_homeDir/.sofluffy/lumide/lsp/lumide_java';
+  String get _jdtlsBaseDir => '$_pluginStorageDir/jdtls';
 
   String _jdtlsDir(String version) => '$_jdtlsBaseDir/jdtls-$version';
 
-  late String _homeDir;
+  late String _pluginStorageDir;
   String? _activeVersion;
   String _lspCommand = _defaultLspCommand;
 
   @override
   Future<void> onActivate(LumideContext context) async {
     log('$_logPrefix $_pluginName plugin activated');
+    _pluginStorageDir = await context.workspace.getPluginStorageDir();
 
     // Load custom Java Home from settings if available
     final customJavaHome = await context.workspace
@@ -47,11 +48,6 @@ class JavaPlugin extends LumidePlugin {
       final javaBin = Platform.isWindows ? 'java.exe' : 'java';
       _lspCommand = '$javaHome/bin/$javaBin';
     }
-
-    // Resolve home directory
-    final home =
-        Platform.environment['HOME'] ?? Platform.environment['USERPROFILE'];
-    _homeDir = home ?? '';
 
     // 1. Check if JDK is available
     final javaCheck = await context.shell.run(_lspCommand, ['-version']);
@@ -400,14 +396,13 @@ class JavaPlugin extends LumidePlugin {
       return false;
     }
 
-    final downloadUrl = 'https://www.eclipse.org/downloads/download.php'
-        '?file=/jdtls/milestones/$version/$tarballName'
-        '&protocol=https';
+    final downloadUrl =
+        'https://download.eclipse.org/jdtls/milestones/$version/$tarballName';
 
     try {
       await context.fs.downloadFile(
         downloadUrl,
-        '$destDir/$tarballName',
+        destDir.path,
         label: 'JDTLS v$version',
         extract: true,
       );
