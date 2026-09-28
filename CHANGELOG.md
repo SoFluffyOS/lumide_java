@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## 1.0.2
 
 - Store JDTLS in Lumide’s private plugin storage.
 - Fix the JDTLS archive download path.
